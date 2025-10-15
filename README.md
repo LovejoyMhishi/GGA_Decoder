@@ -65,14 +65,26 @@ The program processes a sample GPGGA sentence, typically received from a GPS mod
 ## 🧪 Example Usage
 
 ```c
-// Example NMEA GPGGA sentence
-char gpgga[] = "$GPGGA,123519,4807.038,N,01131.000,E,1,08,0.9,545.4,M,46.9,M,,*47";
+#include <stdio.h>
+#include "handleSentence.h"
 
-// Parse the sentence
-parse_gpgga_sentence(gpgga);
+#define MAX_MESSAGE_LENGTH 256
 
-// Output
-printf("UTC Time: %s\n", time_str);
-printf("Latitude: %f\n", latitude_decimal);
-printf("Longitude: %f\n", longitude_decimal);
-printf("Altitude: %f m\n", altitude);
+int main() {
+    char sentence[MAX_MESSAGE_LENGTH];
+
+    while (1) {
+        printf("Enter a GPGGA sentence: ");
+        if (fgets(sentence, MAX_MESSAGE_LENGTH, stdin)) {
+            // Remove newline if captured
+            sentence[strcspn(sentence, "\n")] = 0;
+
+            // Call handleSentence to parse and display data
+            if (!handleSentence(sentence)) {
+                printf("Failed to parse GPGGA sentence.\n");
+            }
+        }
+    }
+
+    return 0;
+}
