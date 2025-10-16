@@ -8,7 +8,7 @@
 
 ## 🌟 Overview
 
-This program processes an **NMEA GPGGA sentence** (Global Positioning System Fix Data) and extracts relevant fields such as:
+This program processes an **NMEA GPGGA sentence** (Global Positioning System Fix Data) from GNSS (Global Navigation Satellite System) data and extracts relevant fields such as:
 
 - UTC time  
 - Latitude & longitude  
