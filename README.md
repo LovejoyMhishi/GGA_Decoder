@@ -88,3 +88,67 @@ int main() {
 
     return 0;
 }
+``` 
+### Example NMEA Sentence
+
+$GPGGA,202530.00,5109.0262,N,11401.8407,W,5,40,0.5,1097.36,M,-17.00,M,18,TSTR*61
+
+
+### About NMEA Sentences
+The **NMEA (National Marine Electronics Association)** defines communication standards for marine electronic devices, including GNSS (Global Navigation Satellite System) receivers.  
+Each GNSS receiver outputs standard messages known as **sentences** that begin with a `$` symbol, followed by an identifier and comma-separated data fields.
+
+Each sentence:
+- Starts with `$`  
+- Contains comma-separated fields  
+- Ends with a two-digit checksum preceded by `*`  
+- Is terminated with a carriage return and line feed (`[CR][LF]`)
+
+Example (showing time, position, and fix data):
+$GPGGA,134658.00,5106.9792,N,11402.3003,W,2,09,1.0,1048.47,M,-16.27,M,08,AAAA*60
+
+These sentences are output the same way across GNSS receivers, ensuring interoperability and standardized data processing.
+
+---
+
+### 🧾 Field Breakdown
+
+| **Field** | **Structure** | **Description** | **Symbol** | **Example** |
+|:------------:|:--------------|:----------------|:-----------|:------------|
+| 1 | `$GPGGA` | Log header |  | `$GPGGA` |
+| 2 | `utc` | UTC time of position (hhmmss.ss) | `hhmmss.ss` | `202134.00` |
+| 3 | `lat` | Latitude (DDmm.mm) | `llll.ll` | `5106.9847` |
+| 4 | `lat dir` | Latitude direction (N = North, S = South) | `a` | `N` |
+| 5 | `lon` | Longitude (DDDmm.mm) | `yyyyy.yy` | `11402.2986` |
+| 6 | `lon dir` | Longitude direction (E = East, W = West) | `a` | `W` |
+| 7 | `quality` | GPS quality indicator (see table below) | `x` | `1` |
+| 8 | `# sats` | Number of satellites used | `xx` | `10` |
+| 9 | `hdop` | Horizontal dilution of precision | `x.x` | `1.0` |
+| 10 | `alt` | Altitude above mean sea level | `x.x` | `1062.22` |
+| 11 | `a-units` | Units of antenna altitude | `M` | `M` |
+| 12 | `undulation` | Geoidal separation (geoid–ellipsoid diff.) | `x.x` | `-16.271` |
+| 13 | `u-units` | Units of undulation | `M` | `M` |
+| 14 | `age` | Age of differential data (s) | `xx` | *(empty when no differential data is present)* |
+| 15 | `stn ID` | Differential base station ID | `xxxx` | *(empty when no differential data is present)* |
+| 16 | `*xx` | Checksum | `*hh` | `*48` |
+| 17 | `[CR][LF]` | Sentence terminator |  | `[CR][LF]` |
+
+---
+
+### 🛰️ GPS Quality Indicators
+
+| **Indicator** | **Description** |
+|:--------------:|:----------------|
+| 0 | Fix not available or invalid |
+| 1 | Single point fix |
+| 2 | Pseudorange differential |
+| 4 | RTK fixed ambiguity solution |
+| 5 | RTK floating ambiguity solution |
+| 6 | Dead reckoning mode |
+| 7 | Manual input (fixed position) |
+| 8 | Simulator mode |
+| 9 | WAAS (SBAS) |
+
+---
+
+For more detailed information about NMEA sentence formats, see the official NMEA specifications or manufacturer documentation.
